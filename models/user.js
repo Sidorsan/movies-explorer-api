@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const regexUrlCheck = require('../util/regex');
 
 const userSchema = new mongoose.Schema(
   {
