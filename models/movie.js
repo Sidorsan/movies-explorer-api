@@ -60,4 +60,4 @@ const bitfilmsdb = new mongoose.Schema(
   { versionKey: false },
 );
 
-module.exports = mongoose.model('card', bitfilmsdb);
+module.exports = mongoose.model('movie', bitfilmsdb);

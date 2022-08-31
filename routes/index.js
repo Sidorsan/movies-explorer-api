@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const userRouter = require('./users');
-// const cardRouter = require('./cards');
+const movieRouter = require('./movies');
 const { NotFoundError } = require('../errors/NotFoundError');
 
 router.use(userRouter);
-// router.use(cardRouter);
+router.use(movieRouter);
 router.use(() => {
   throw new NotFoundError('Wrong URL');
 });
