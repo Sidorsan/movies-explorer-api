@@ -35,7 +35,7 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use(errorHandler);
-mongoose.connect('mongodb://localhost:27017/mestodb', {
+mongoose.connect('mongodb://localhost:127.0.0.1/mestodb', {
   useNewUrlParser: true,
 });
 
