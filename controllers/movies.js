@@ -10,29 +10,24 @@ module.exports.getMovies = (req, res, next) => {
 };
 
 module.exports.createMovie = (req, res, next) => {
-  const {
-    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId,
-  } = req.body;
-
+  const dataMovie = req.body;
   const owner = req.user._id;
 
   Movie.create({
-    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, owner,
+    country: dataMovie.country,
+    director: dataMovie.director,
+    duration: dataMovie.duration,
+    year: dataMovie.year,
+    description: dataMovie.description,
+    image: dataMovie.image,
+    trailerLink: dataMovie.trailerLink,
+    nameRU: dataMovie.nameRU,
+    nameEN: dataMovie.nameEN,
+    thumbnail: dataMovie.thumbnail,
+    movieId: dataMovie.movieId,
+    owner,
   })
-    .then((movie) => res.send(
-      // country: movie.country,
-      // director: movie.director,
-      // duration: movie.duration,
-      // year: movie.year,
-      // description: movie.description,
-      // image: movie.image,
-      // trailerLink: movie.trailerLink,
-      // nameRU: movie.nameRU,
-      // nameEN: movie.nameEN,
-      // thumbnail: movie.thumbnail,
-      // movieId: movie.movieId,
-      movie,
-    ))
+    .then((movie) => res.send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(err.message));
