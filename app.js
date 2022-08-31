@@ -37,9 +37,6 @@ app.use(errors());
 app.use(errorHandler);
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
 });
 
 app.listen(3000);
