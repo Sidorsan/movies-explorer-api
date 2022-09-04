@@ -5,9 +5,15 @@ const { NotFoundError } = require('../errors/NotFoundError');
 const { BadRequestError } = require('../errors/BadRequestError');
 const { ConflictError } = require('../errors/ConflictError');
 const { UnauthorizedError } = require('../errors/UnauthorizedError');
+const { jwtSecretDevelopmentMode } = require('../config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
+module.exports.getUsers = (req, res, next) => {
+  User.find({})
+    .then((users) => res.send(users))
+    .catch(next);
+};
 
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
@@ -18,9 +24,7 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-  const {
-    email, password, name,
-  } = req.body;
+  const { email, password, name } = req.body;
   bcrypt
     .hash(password, SALT_ROUNDS)
     .then((hash) => {
@@ -37,9 +41,7 @@ module.exports.createUser = (req, res, next) => {
         .catch((err) => {
           if (err.code === 11000) {
             next(
-              new ConflictError(
-                'Пользователь с данным email уже существует',
-              ),
+              new ConflictError('Пользователь с данным email уже существует'),
             );
           } else if (err.name === 'ValidationError') {
             next(new BadRequestError(err.message));
@@ -74,6 +76,11 @@ module.exports.updateUser = (req, res, next) => {
         next(new BadRequestError('Некорректный ID'));
         return;
       }
+      if (err.code === 11000) {
+        next(
+          new ConflictError('Введеный email пренадлежит другому пользователю'),
+        );
+      }
       next(err);
     });
 };
@@ -84,17 +91,17 @@ module.exports.login = (req, res, next) => {
     .select('+password')
     .then((user) => {
       if (!user) {
-        next(new UnauthorizedError('Такого пользователя не существует'));
+        next(new UnauthorizedError('Неправильная почта или пароль'));
         return;
       }
       bcrypt.compare(password, user.password, (err, isValidPassword) => {
         if (!isValidPassword) {
-          next(new UnauthorizedError('Пароль не верный'));
+          next(new UnauthorizedError('Неправильная почта или пароль'));
           return;
         }
         const tokenUser = jwt.sign(
           { _id: user._id },
-          NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
+          NODE_ENV === 'production' ? JWT_SECRET : jwtSecretDevelopmentMode,
           {
             expiresIn: '7d',
           },

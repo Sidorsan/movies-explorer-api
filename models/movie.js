@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const regexUrlCheck = require('../util/regex');
+const validator = require('validator');
 
 const bitfilmsdb = new mongoose.Schema(
   {
@@ -26,17 +26,32 @@ const bitfilmsdb = new mongoose.Schema(
     image: {
       type: String,
       required: true,
-      pattern: regexUrlCheck,
+      validate: {
+        validator(v) {
+          return validator.isURL(v);
+        },
+        message: 'не валидная ссылка',
+      },
     },
     trailerLink: {
       type: String,
       required: true,
-      pattern: regexUrlCheck,
+      validate: {
+        validator(v) {
+          return validator.isURL(v);
+        },
+        message: 'не валидная ссылка',
+      },
     },
     thumbnail: {
       type: String,
       required: true,
-      pattern: regexUrlCheck,
+      validate: {
+        validator(v) {
+          return validator.isURL(v);
+        },
+        message: 'не валидная ссылка',
+      },
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,

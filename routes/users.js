@@ -3,11 +3,14 @@ const router = require('express').Router();
 const auth = require('../middlewares/auth');
 
 const {
+  getUsers,
   updateUser,
   getCurrentUser,
   createUser,
   login,
 } = require('../controllers/users');
+
+router.get('/users', getUsers);
 
 router.post(
   '/signin',
@@ -26,7 +29,7 @@ router.post(
     body: Joi.object().keys({
       email: Joi.string().required().email(),
       password: Joi.string().required(),
-      name: Joi.string().min(2).max(30),
+      name: Joi.string().required().min(2).max(30),
     }),
   }),
   createUser,
