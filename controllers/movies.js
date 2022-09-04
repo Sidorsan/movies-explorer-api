@@ -5,7 +5,7 @@ const { BadRequestError } = require('../errors/BadRequestError');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
-    .then((movie) => res.status(200).send(movie))
+    .then((movie) => res.send(movie))
     .catch(next);
 };
 
@@ -13,20 +13,7 @@ module.exports.createMovie = (req, res, next) => {
   const dataMovie = req.body;
   const owner = req.user._id;
 
-  Movie.create({
-    country: dataMovie.country,
-    director: dataMovie.director,
-    duration: dataMovie.duration,
-    year: dataMovie.year,
-    description: dataMovie.description,
-    image: dataMovie.image,
-    trailerLink: dataMovie.trailerLink,
-    nameRU: dataMovie.nameRU,
-    nameEN: dataMovie.nameEN,
-    thumbnail: dataMovie.thumbnail,
-    movieId: dataMovie.movieId,
-    owner,
-  })
+  Movie.create({ ...dataMovie, owner })
     .then((movie) => res.send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -47,7 +34,7 @@ module.exports.deleteMovie = (req, res, next) => {
       if (req.user._id.toString() !== movie.owner.toString()) {
         return next(new ForbiddenError('Нельзя удалить фильм другого пользователя'));
       }
-      return Movie.deleteOne(movie).then(() => res.status(200).send(movie));
+      return Movie.deleteOne(movie).then(() => res.send(movie));
     })
     .catch((err) => {
       if (err.name === 'CastError') {

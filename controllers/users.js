@@ -18,7 +18,7 @@ module.exports.getUsers = (req, res, next) => {
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
-      res.status(200).send(user);
+      res.send(user);
     })
     .catch(next);
 };
@@ -65,7 +65,7 @@ module.exports.updateUser = (req, res, next) => {
         next(new NotFoundError('Нет пользователя с таким id'));
         return;
       }
-      res.status(200).send(user);
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -106,7 +106,7 @@ module.exports.login = (req, res, next) => {
             expiresIn: '7d',
           },
         );
-        res.status(200).send({ token: tokenUser });
+        res.send({ token: tokenUser });
       });
     })
     .catch(next);
