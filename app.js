@@ -10,10 +10,12 @@ const router = require('./routes');
 const { errorHandler } = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { allowedCors } = require('./middlewares/cors');
+const { limiter } = require('./util/rateLimit');
+
 const { addressMongoServerDevelopmentMode } = require('./config');
 
 const { NODE_ENV, MONGO_URI } = process.env;
-
+app.use(limiter);
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(requestLogger);
