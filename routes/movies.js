@@ -9,7 +9,7 @@ const {
   deleteMovie,
 } = require('../controllers/movies');
 
-router.use(auth);
+// router.use(auth); раскоментировать когда будет авторизация
 
 router.get('/movies', getMovies);
 
