@@ -35,7 +35,7 @@ router.post(
   createUser,
 );
 
-router.use(auth);
+// router.use(auth); расскоментровать когда будет авторизация
 
 router.patch(
   '/users/me',
