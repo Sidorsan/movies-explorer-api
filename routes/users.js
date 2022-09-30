@@ -35,7 +35,7 @@ router.post(
   createUser,
 );
 
-// router.use(auth); расскоментровать когда будет авторизация
+router.use(auth);
 
 router.patch(
   '/users/me',
@@ -47,7 +47,5 @@ router.patch(
   }),
   updateUser,
 );
-
 router.get('/users/me', getCurrentUser);
-
 module.exports = router;
