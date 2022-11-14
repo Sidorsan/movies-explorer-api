@@ -3,8 +3,8 @@ const allowedCors = [
   'http://praktikum.tk',
   'http://localhost:3000',
   'https://localhost:3000',
-  'https://sidorsan.diploma.nomoredomains.sbs',
-  'http://sidorsan.diploma.nomoredomains.sbs',
+  'https://sidorsan.diploma.nomoredomains.icu',
+  'http://sidorsan.diploma.nomoredomains.icu',
   'https://api.sidorsan.diploma.nomoredomains.sbs',
   'http://api.sidorsan.diploma.nomoredomains.sbs',
 
