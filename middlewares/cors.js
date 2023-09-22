@@ -11,7 +11,7 @@ const allowedCors = [
   'https://api.sidorsan.nomoredomains.sbs',
   'http://sidorsan.nomoredomains.sbs',
   'https://sidorsan.nomoredomains.sbs',
-
+  'localhost: 3000'
 
 ];
 
